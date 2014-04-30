@@ -1,14 +1,21 @@
+% Load all data
 load ps8_data.mat
+
+% Number of principal components to be considerd(by eyeballing)
 NUM_PRINCOMP = 3;
 
+% Extracting out the constants used frequently
 NUM_TRIALS = size(Xplan, 1);
 DIMENSION = size(Xplan, 2);
 
+% Computing mean and covariance
 mean_spike_counts = mean(Xplan, 1);
 cov_spike_counts = cov(Xplan);
 
+% Eigen Decomposition
 [U, Lambda] = eig(cov_spike_counts);
 
+% Plotting the graph for problem 1.a
 eigen_values = diag(Lambda);
 eigen_values_increasing = fliplr(eigen_values')';
 plot(fliplr(sqrt(eigen_values_increasing)));
@@ -20,7 +27,7 @@ title('Square Rooted Eigen Value Spectrum');
 
 percentage_in_top_PrinComp = sum(eigen_values_increasing ...
     (1:NUM_PRINCOMP))./ sum(eigen_values_increasing);
-%  This is 44.79% for top 3 components
+% This is 44.79% for top 3 components
 
 
 % Question 1b
@@ -29,6 +36,7 @@ PC1 = U(:,end);
 PC2 = U(:,end-1);
 PC3 = U(:,end-2);
 mean_repeated = repmat(mean_spike_counts, NUM_TRIALS, 1);
+% Top 3 Principal Components
 Z1 = PC1' * (Xplan - mean_repeated)';
 Z2 = PC2' * (Xplan - mean_repeated)';
 Z3 = PC3' * (Xplan - mean_repeated)';
@@ -55,4 +63,8 @@ figure
 U_m = [PC1 PC2 PC3];
 imagesc(U_m);
 colorbar
-title('Not sure how to interpret this');
+xlabel('Principal Component 1 ,2 and 3');
+ylabel('Neurons 1 to 97');
+axis xy;
+title(['Q.1.c Individual Neurons Contribution to the' ...
+    'top 3 Principal Components']);

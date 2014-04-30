@@ -4,7 +4,7 @@ LINE_LENGTH = 15;
 sigma_sqr = 0.5;
 mu_bkp = mu;
 W = [1;1];
-n_iter = 100;
+n_iter = 20;
 L = zeros(1,n_iter);
 
 for k =1:n_iter
@@ -17,11 +17,9 @@ for k =1:n_iter
 
     % M Step
     E_zzt = z_x_sigma + z_x_mu * z_x_mu';
-%     E_zzt = cov(z_x_sigma,z_x_sigma') + z_x_mu * z_x_mu';
 
     term1 = (X-mu_rep) * z_x_mu';
     term2 = inv(sum(repmat(E_zzt, [1, NUMBER_OF_POINTS])));
-%     term2 = inv(E_zzt);
     W = term1 * term2;
 
     term3 = (X-mu_rep)*(X-mu_rep)';
@@ -35,8 +33,12 @@ for k =1:n_iter
     end
 end
 plot(L);
+xlabel('Iteration Number');
+ylabel('Log Likelihood');
+title('Q.2.b. Log likelihood v/s iteration number');
+figure;
 
-% Question 2c
+% Question 2d
 plot (X(1,:), X(2,:), 'k.', 'markersize',30);
 hold on;
 plot (mu(1), mu(2), 'g.', 'markersize',45);
@@ -54,4 +56,10 @@ for i=1:NUMBER_OF_POINTS
     line([X_cap(1, i), X(1, i) ], [X_cap(2, i), X(2, i) ], 'Color', 'r');
     hold on
 end
+xlabel('X1 in high-D');
+ylabel('X2 in high-D');
+title('Q.2.d. Illustrating PPCA')
+legend('Data Points(in high D)', 'Mean(in high D)', 'PC Space', ...
+    'Low D projections', 'High-D to Low-D connection'...
+    ,'Location','NorthWest');
 axis equal
