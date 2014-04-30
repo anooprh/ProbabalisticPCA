@@ -1,14 +1,14 @@
 load q2.mat
 
 LINE_LENGTH = 15;
-sigma_sqr = 0.5;
+psi = rand(HIGH_DIMENSION);
 mu_bkp = mu;
 W = [1;1];
 n_iter = 100;
 L = zeros(1,n_iter);
 
 for k =1:n_iter
-    C = W*W' + sigma_sqr*eye(HIGH_DIMENSION);
+    C = W*W' + psi;
 
     % E step
     mu_rep = repmat(mu, [1, NUMBER_OF_POINTS]);
@@ -26,8 +26,7 @@ for k =1:n_iter
 
     term3 = (X-mu_rep)*(X-mu_rep)';
     term4 = W*(z_x_mu*(X-mu_rep)');
-    sigma_sqr = trace(term3 - term4)/ ...
-        (NUMBER_OF_POINTS * HIGH_DIMENSION);
+    psi = diag(diag(term3 - term4))/NUMBER_OF_POINTS;
 
     % Calculating log likelihood
     for i = 1:NUMBER_OF_POINTS
@@ -48,7 +47,7 @@ line([point_1_for_plot(1), point_2_for_plot(1)],...
 hold on;
 
 X_cap = W*z_x_mu + mu_rep;
-plot (X_cap(1,:), X_cap(2,:), 'r.', 'markersize',15);
+plot (X_cap(1,:), X_cap(2,:), 'r.', 'markersize',30);
 hold on;
 for i=1:NUMBER_OF_POINTS
     line([X_cap(1, i), X(1, i) ], [X_cap(2, i), X(2, i) ], 'Color', 'r');

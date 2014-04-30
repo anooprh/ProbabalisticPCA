@@ -39,7 +39,8 @@ plot3(Z1(91*3+1:91*4), Z2(91*3+1:91*4), Z3(91*3+1:91*4), '.c');hold on;
 plot3(Z1(91*4+1:91*5), Z2(91*4+1:91*5), Z3(91*4+1:91*5), '.k');hold on;
 plot3(Z1(91*5+1:91*6), Z2(91*5+1:91*6), Z3(91*5+1:91*6), '.m');hold on;
 plot3(Z1(91*6+1:91*7), Z2(91*6+1:91*7), Z3(91*6+1:91*7), '.y');hold on;
-plot3(Z1(91*7+1:91*8), Z2(91*7+1:91*8), Z3(91*7+1:91*8), '.','Color',[1,0.4,0.6]);hold on;
+plot3(Z1(91*7+1:91*8), Z2(91*7+1:91*8), Z3(91*7+1:91*8), '.',...
+    'Color',[1,0.4,0.6]);hold on;
 legend('Reaching angle 1','Reaching angle 2','Reaching angle 3', ...
     'Reaching angle 4','Reaching angle 5','Reaching angle 6',...
     'Reaching angle 7','Reaching angle 8');
