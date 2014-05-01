@@ -1,7 +1,7 @@
 load q2.mat
 
-LINE_LENGTH = 15;
-psi = rand(HIGH_DIMENSION);
+LINE_LENGTH = 3;
+psi = diag(diag(rand(HIGH_DIMENSION)));
 mu_bkp = mu;
 W = [1;1];
 n_iter = 20;
@@ -16,10 +16,10 @@ for k =1:n_iter
     z_x_sigma = eye(LOW_DIMENSION) - W'*inv(C)*W;
 
     % M Step
-    E_zzt = z_x_sigma + z_x_mu * z_x_mu';
+    E_zzt = z_x_sigma*NUMBER_OF_POINTS + z_x_mu * z_x_mu';
 
     term1 = (X-mu_rep) * z_x_mu';
-    term2 = inv(sum(repmat(E_zzt, [1, NUMBER_OF_POINTS])));
+    term2 = inv(E_zzt);
     W = term1 * term2;
 
     term3 = (X-mu_rep)*(X-mu_rep)';
@@ -28,7 +28,7 @@ for k =1:n_iter
 
     % Calculating log likelihood
     for i = 1:NUMBER_OF_POINTS
-        L(k) = L(k) - logmvnpdf(X(:,i), mu, C);
+        L(k) = L(k) + logmvnpdf(X(:,i), mu, C);
     end
 end
 plot(L);

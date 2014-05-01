@@ -1,6 +1,6 @@
 load q2.mat
 
-LINE_LENGTH = 15;
+LINE_LENGTH = 3;
 sigma_sqr = 0.5;
 mu_bkp = mu;
 W = [1;1];
@@ -16,10 +16,10 @@ for k =1:n_iter
     z_x_sigma = eye(LOW_DIMENSION) - W'*inv(C)*W;
 
     % M Step
-    E_zzt = z_x_sigma + z_x_mu * z_x_mu';
+    E_zzt = z_x_sigma.*NUMBER_OF_POINTS + z_x_mu * z_x_mu';
 
     term1 = (X-mu_rep) * z_x_mu';
-    term2 = inv(sum(repmat(E_zzt, [1, NUMBER_OF_POINTS])));
+    term2 = inv(E_zzt);
     W = term1 * term2;
 
     term3 = (X-mu_rep)*(X-mu_rep)';
